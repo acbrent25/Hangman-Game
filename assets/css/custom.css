@@ -1,0 +1,47 @@
+body {
+    background-color: #ddd;
+    font-family: 'Hind', sans-serif;
+}
+
+
+h1,h2,h3,h4 {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizelegibility;
+
+}
+
+#header {
+    background-color: #000;
+    color: #fff;
+    text-transform: uppercase
+}
+
+#header h2 {
+    font-size: 50px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    font-weight: 900;
+}
+
+div#guessed-word {
+    padding: 20px;
+    
+}
+
+#guessed-word h2 {
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+p#current-word-space {
+    font-size: 30px;
+}
+
+
+.column {
+    background: #dd3333;
+    padding: 20px;
+    border: 10px solid #fff;
+    color: #fff;
+}
