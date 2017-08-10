@@ -1,4 +1,6 @@
 
+
+
 // HANGMAN GAME
 
 
@@ -8,7 +10,7 @@ var currentWordLetters = [];
 var currentWordLettersPlaceholder = [];
 var guessesLeft = 0;
 var lettersAlreadyGuessed = [];
-var currentWord = "";
+var currentWord = [];
 
 
 
@@ -22,13 +24,19 @@ function newGame() {
     // Set the number of guesses
     guessesLeft = 13;
     
+
     // Add them to the dom
     document.querySelector("#guesses-left").textContent = guessesLeft;
     
     // Ads wis to the dom
     document.querySelector("#wins").textContent = wins;
        
+   
+        resetWord();
+    
         
+
+
         // Pick a Random Word
        currentWord = randomWord[Math.floor(Math.random() * randomWord.length -1)];
         
@@ -48,11 +56,11 @@ function newGame() {
         console.log('currentWordLettersPlaceholder= ' + currentWordLettersPlaceholder);
 
         // Remove Space in string
-        currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
+        currentWordLettersPrinted = currentWordLettersPlaceholder.join(" ");
         // output the placeholders into the html
-        document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
+        document.querySelector("#current-word").textContent = currentWordLettersPrinted;
 
-        console.log('currentWordLettersPlaceholderSpace= ' + currentWordLettersPlaceholderSpace);
+        console.log('currentWordLettersPrinted= ' + currentWordLettersPrinted);
 
         // On key up event
         document.onkeyup = function(event) {
@@ -61,16 +69,17 @@ function newGame() {
             var userGuess = String.fromCharCode(event.keyCode).toLowerCase();                
 
             // if the userGuess matches any of the currentWordLetters then replace the them with the user guess           
-            for ( var i = 0; i < currentWordLetters.length; i++) {
+            for ( var i = 0; i < currentWord.length; i++) {
                 if (userGuess === currentWordLetters[i]) {
                     currentWordLettersPlaceholder[i] = userGuess;
+                    document.querySelector("#current-word").textContent = currentWordLettersPlaceholder.join(" ");
+
+                    // currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
+                    // document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
+                    // currentWordLettersPlaceholderNoSpace = currentWordLettersPlaceholder.join("");
                 } 
              } 
-            
-                currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
-                document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
-                currentWordLettersPlaceholderNoSpace = currentWordLettersPlaceholder.join("");
-                        
+                   
            
                 
                 // If userGuesses wrong letter then subtract 1 from Guesses left
@@ -83,13 +92,13 @@ function newGame() {
 
              
 
-            if (currentWordLettersPlaceholderNoSpace === currentWord) {
+            if (currentWordLettersPlaceholder.join("") === currentWord) {
                  wins++;              
                  document.querySelector("#wins").textContent = wins;
                  document.querySelector("#final-word").textContent = currentWord;          
                  videoPlay();
-                 newGame();
-                
+                 
+                 newGame();   
                                        
              }
 
@@ -110,6 +119,13 @@ function newGame() {
 
 } //  newGame
 
+        function resetWord() {
+            currentWord = [];
+            currentWordLetters = [];
+            currentWordLettersPrinted = [];
+            currentWordLettersPlaceholder = [];
+            userGuess = [];
+        }
 
 
         function videoPlay() {
@@ -126,12 +142,12 @@ function newGame() {
             } 
         } // vide0Play
 
-
-
 newGame();
 
-    
 
+
+
+    
 
 
 
