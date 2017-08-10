@@ -16,13 +16,10 @@ var currentWord = [];
 
 
 
-
-
-
-
 function newGame() {
     // Set the number of guesses
     guessesLeft = 13;
+    lettersAlreadyGuessed = [];
     
 
     // Add them to the dom
@@ -38,7 +35,7 @@ function newGame() {
 
 
         // Pick a Random Word
-       currentWord = randomWord[Math.floor(Math.random() * randomWord.length -1)];
+       currentWord = randomWord[Math.floor(Math.random() * randomWord.length)];
         
         console.log('currentWord = ' + currentWord);
 
@@ -74,9 +71,6 @@ function newGame() {
                     currentWordLettersPlaceholder[i] = userGuess;
                     document.querySelector("#current-word").textContent = currentWordLettersPlaceholder.join(" ");
 
-                    // currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
-                    // document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
-                    // currentWordLettersPlaceholderNoSpace = currentWordLettersPlaceholder.join("");
                 } 
              } 
                    
@@ -125,6 +119,7 @@ function newGame() {
             currentWordLettersPrinted = [];
             currentWordLettersPlaceholder = [];
             userGuess = [];
+            lettersAlreadyGuessed = [];
         }
 
 
@@ -148,7 +143,6 @@ newGame();
 
 
     
-
 
 
 
