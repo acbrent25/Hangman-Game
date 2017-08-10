@@ -19,8 +19,6 @@ var currentWord = [];
 function newGame() {
     // Set the number of guesses
     guessesLeft = 13;
-    lettersAlreadyGuessed = [];
-    
 
     // Add them to the dom
     document.querySelector("#guesses-left").textContent = guessesLeft;
@@ -29,11 +27,8 @@ function newGame() {
     document.querySelector("#wins").textContent = wins;
        
    
-        resetWord();
+     resetWord();
     
-        
-
-
         // Pick a Random Word
        currentWord = randomWord[Math.floor(Math.random() * randomWord.length)];
         
@@ -59,22 +54,27 @@ function newGame() {
 
         console.log('currentWordLettersPrinted= ' + currentWordLettersPrinted);
 
+    
+
         // On key up event
         document.onkeyup = function(event) {
 
             // Captures the key press, converts it to lowercase, and saves it to a variable.
             var userGuess = String.fromCharCode(event.keyCode).toLowerCase();                
 
+           
+
             // if the userGuess matches any of the currentWordLetters then replace the them with the user guess           
-            for ( var i = 0; i < currentWord.length; i++) {
+            if (lettersAlreadyGuessed.indexOf(userGuess) === -1) {
+                
+                for ( var i = 0; i < currentWord.length; i++) {
                 if (userGuess === currentWordLetters[i]) {
                     currentWordLettersPlaceholder[i] = userGuess;
                     document.querySelector("#current-word").textContent = currentWordLettersPlaceholder.join(" ");
-
-                } 
-             } 
+                } // if
+             } // end for
                    
-           
+            
                 
                 // If userGuesses wrong letter then subtract 1 from Guesses left
              if (currentWordLettersPlaceholder.indexOf(userGuess) === -1) {
@@ -100,14 +100,9 @@ function newGame() {
              if (guessesLeft === 0) {
                  newGame();
              }
-
-
-
-
-
-        } // .onkeyup = function(event)
-  
-
+                
+            } // .onkeyup = function(event)
+            } // letters already guesses
 
 
 
