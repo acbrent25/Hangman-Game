@@ -1,74 +1,138 @@
+
 // HANGMAN GAME
 
-window.onload = function() {
-// empty array to push underscores and letters onto
 
-chosenWordSpace = [];
-
-// On Page Load User is given 12 chances
-
-var lives = 12;
-
-
-//computer chooses random word from Array
-
-var randomWord = ["popcorned", "mayweathered", "faking", "scorpion", "Ghost Holes" ];
-
-var chosenWord = randomWord[Math.floor(Math.random() * randomWord.length)];
-console.log(chosenWord); 
+var randomWord = ["popcorned", "redneck", "faking", "scorpion", "ghostholes" ];
+var wins = 0;
+var currentWordLetters = [];
+var currentWordLettersPlaceholder = [];
+var guessesLeft = 0;
+var lettersAlreadyGuessed = [];
+var currentWord = "";
 
 
-// Save word as new variable and split into each letter.
-
-var lettersInChosenWord = chosenWord.split("");
-
-console.log(lettersInChosenWord);
 
 
-// Replace each letter with underscores on page
 
-for (var i=0; i < lettersInChosenWord.length; i++) {
-    chosenWordSpace.push("_ ");
+
+
+
+
+function newGame() {
+    // Set the number of guesses
+    guessesLeft = 13;
     
-}
-
-// get current-word-space HTML and insert the the underscors.  Use join to seperate by space instead of comma.
-document.getElementById("current-word-space").innerHTML = chosenWordSpace.join(" ");
-
-
-
-// When a user chooses a letter:
-document.onkeyup = function(event) {
-
-    // Captures the key press, converts it to lowercase, and saves it to a variable.
-        var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-        console.log(userGuess);
+    // Add them to the dom
+    document.querySelector("#guesses-left").textContent = guessesLeft;
+    
+    // Ads wis to the dom
+    document.querySelector("#wins").textContent = wins;
+       
         
-
-    // Compare to letters in word
-
-    for (var i = 0; i < lettersInChosenWord.length; i++) {
-
-        return lettersInChosenWord;
+        // Pick a Random Word
+       currentWord = randomWord[Math.floor(Math.random() * randomWord.length -1)];
         
-        // if letter matches
-        if (userGuess === lettersInChosenWord[i]) {
+        console.log('currentWord = ' + currentWord);
 
-            // replace the the underscore with the letter
+        // Split Random Word into array of letters.
+        currentWordLetters = currentWord.split("");
+
+        console.log('currentWordLetters = ' + currentWordLetters);
+
+        // for each letter add an underscore spaceholder to <p id="current-word"></p><br>
+
+        for (var i = 0; i < currentWord.length; i++) {
+            currentWordLettersPlaceholder.push("_");
+        }
+
+        console.log('currentWordLettersPlaceholder= ' + currentWordLettersPlaceholder);
+
+        // Remove Space in string
+        currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
+        // output the placeholders into the html
+        document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
+
+        console.log('currentWordLettersPlaceholderSpace= ' + currentWordLettersPlaceholderSpace);
+
+        // On key up event
+        document.onkeyup = function(event) {
+
+            // Captures the key press, converts it to lowercase, and saves it to a variable.
+            var userGuess = String.fromCharCode(event.keyCode).toLowerCase();                
+
+            // if the userGuess matches any of the currentWordLetters then replace the them with the user guess           
+            for ( var i = 0; i < currentWordLetters.length; i++) {
+                if (userGuess === currentWordLetters[i]) {
+                    currentWordLettersPlaceholder[i] = userGuess;
+                } 
+             } 
             
-            
+                currentWordLettersPlaceholderSpace = currentWordLettersPlaceholder.join(" ");
+                document.querySelector("#current-word").textContent = currentWordLettersPlaceholderSpace;
+                currentWordLettersPlaceholderNoSpace = currentWordLettersPlaceholder.join("");
+                        
+           
                 
-            }  
-    }
+                // If userGuesses wrong letter then subtract 1 from Guesses left
+             if (currentWordLettersPlaceholder.indexOf(userGuess) === -1) {
+                 guessesLeft--;
+                 document.querySelector("#guesses-left").textContent = guessesLeft;
+                 lettersAlreadyGuessed += userGuess;
+                 document.querySelector("#letters-guessed").textContent = lettersAlreadyGuessed;
+             }
+
+             
+
+            if (currentWordLettersPlaceholderNoSpace === currentWord) {
+                 wins++;              
+                 document.querySelector("#wins").textContent = wins;
+                 document.querySelector("#final-word").textContent = currentWord;          
+                 videoPlay();
+                 newGame();
+                
+                                       
+             }
+
+             // if user runs out of guesses reset the game
+             if (guessesLeft === 0) {
+                 newGame();
+             }
+
+
+
+
+
+        } // .onkeyup = function(event)
+  
+
+
+
+
+} //  newGame
+
+
+
+        function videoPlay() {
+            if (currentWord === "scorpion") {
+            document.querySelector("#left-content").innerHTML = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/dovAyYDWUWY?autoplay=1' frameborder='0' allowfullscreen></iframe></div>";
+            } else if (currentWord === "popcorned") {
+            document.querySelector("#left-content").innerHTML = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/gtUNczOl_AA?autoplay=1&start=30' frameborder='0' allowfullscreen></iframe></div>";
+            } else if (currentWord === "redneck") {
+            document.querySelector("#left-content").innerHTML = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/Rl_jGbeCJCw?autoplay=1&start=70' frameborder='0' allowfullscreen></iframe></div>";
+            } else if (currentWord === "faking") {
+            document.querySelector("#left-content").innerHTML = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/DeZvfhhGBOo?autoplay=1&start=15' frameborder='0' allowfullscreen></iframe></div>";
+            } else if (currentWord === "ghostholes") {
+            document.querySelector("#left-content").innerHTML = "<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/DpKQqoM3tAk?autoplay=1&start=33' frameborder='0' allowfullscreen></iframe></div>";
+            } 
+        } // vide0Play
+
+
+
+newGame();
 
     
 
-    }
 
-
-
-
-}
 
 
 
